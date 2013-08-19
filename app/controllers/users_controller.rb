@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def new
@@ -47,15 +48,6 @@ class UsersController < ApplicationController
   end
 
 private
-  def signed_in_user
-    # If you're getting an error you can use raise to output in your test 
-    # suite (53:30 of video 9):
-    # raise signed_in?.inspect
-    unless signed_in?
-      store_location
-      redirect_to signin_path, notice: "Please sign in." 
-    end
-  end
 
   def correct_user
     @user = User.find(params[:id])
